@@ -19,11 +19,6 @@ class FuzzyComparer{
         $this->SubtokenLength = $aSubtokenLength;
     }
 
-    public function IsFuzzyEqual($first, $second) {
-        return $this->CalculateFuzzyEqualValue($first, $second); // временно
-        return $ThresholdSentence <= $this->CalculateFuzzyEqualValue($first, $second);
-    }
-
     public function CalculateFuzzyEqualValue($first, $second) {
         if (empty($first) && empty($second)) {
             return 1.0;
@@ -55,7 +50,7 @@ class FuzzyComparer{
         $usedToken = array();
         for ($i = 0; $i < count($tokensFirst); ++$i) {
             for ($j = 0; $j < count($tokensSecond); ++$j) {
-                if (!$usedToken[$j]) {
+                if ( !isset($usedToken[$j]) ) {
                     sleep(0.5);
                     if ($this->IsTokensFuzzyEqual($tokensFirst[$i], $tokensSecond[$j])) {
                         $equalsTokens[] = $tokensFirst[$i];
@@ -75,7 +70,7 @@ class FuzzyComparer{
         for ($i = 0; $i < strlen($firstToken) - $this->SubtokenLength + 1; ++$i) {
             $subtokenFirst = mb_strimwidth($firstToken, $i, $this->SubtokenLength);
             for ($j = 0; $j < strlen($secondToken) - $this->SubtokenLength + 1; ++$j) {
-                if (!$usedTokens[$j]) {
+                if ( isset(!$usedTokens[$j]) ) {
                     $subtokenSecond = mb_strimwidth($secondToken, $j, $this->SubtokenLength);
                     if ($subtokenFirst === $subtokenSecond) {
                         $equalSubtokensCount++;
